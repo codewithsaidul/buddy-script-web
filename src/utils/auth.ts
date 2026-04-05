@@ -7,7 +7,7 @@ export type RouteConfig = {
 
 
 export const commonProtectedRoutes: RouteConfig = {
-    exact: ["/", "/my-profile", "/settings", "/change-password"],
+    exact: ["/feed", "/my-profile", "/settings", "/change-password"],
     patterns: [],
 }
 
@@ -33,7 +33,7 @@ export const isRouteMatches = (pathname: string, routes: RouteConfig): boolean =
 
 export const getRouteOwner = (pathname: string): UserRole | "COMMON" | null => {
     if (isRouteMatches(pathname, adminProtectedRoutes)) {
-        return UserRole.USER;
+        return UserRole.ADMIN;
     }
     if (isRouteMatches(pathname, commonProtectedRoutes)) {
         return "COMMON";
@@ -42,10 +42,10 @@ export const getRouteOwner = (pathname: string): UserRole | "COMMON" | null => {
 }
 
 export const getDefaultDashboardRoute = (role: UserRole): string => {
-    if (role === UserRole.USER) {
-        return "/";
+    if (role === UserRole.ADMIN) {
+        return "/dashboard";
     }
-    return "/"; 
+    return "/feed"; 
 };
 
 export const isValidRedirectForRole = (redirectPath: string, role: UserRole): boolean => {

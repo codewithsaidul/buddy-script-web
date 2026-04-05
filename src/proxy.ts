@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { UserRole } from "./types/user.types";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { getNewAccessToken } from "./services/auth/auth.service";
-import { deleteCookie, getCookie } from "./services/auth/tokenHandlers";
-import { getDefaultDashboardRoute, getRouteOwner, isAuthRoute } from "./utils/auth";
+import {
+  getDefaultDashboardRoute,
+  getRouteOwner,
+  isAuthRoute,
+} from "./utils/auth";
+import { deleteCookie, getCookie } from "./service/auth/tokenHandlers";
+import { getNewAccessToken } from "./service/auth/auth.service";
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -104,7 +108,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // Rule 6 : User is trying to access role based protected route
-  if (routerOwner === UserRole.USER) {
+  if (routerOwner === UserRole.ADMIN) {
     if (userRole !== routerOwner) {
       return NextResponse.redirect(
         new URL(getDefaultDashboardRoute(userRole as UserRole), request.url),
