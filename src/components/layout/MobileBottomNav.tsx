@@ -31,7 +31,7 @@ export default function MobileBottomNav({
                   fill="#000"
                   fill-opacity=".6"
                   stroke="#666666"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   d="M1 13.042c0-2.094 0-3.141.431-4.061.432-.92 1.242-1.602 2.862-2.965l1.571-1.321C8.792 2.232 10.256 1 12 1c1.744 0 3.208 1.232 6.136 3.695l1.572 1.321c1.62 1.363 2.43 2.044 2.86 2.965.432.92.432 1.967.432 4.06v6.54c0 2.908 0 4.362-.92 5.265-.921.904-2.403.904-5.366.904H7.286c-2.963 0-4.445 0-5.365-.904C1 23.944 1 22.49 1 19.581v-6.54z"
                 />
                 <path
@@ -39,7 +39,7 @@ export default function MobileBottomNav({
                   stroke="#fff"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M9.07 18.497h5.857v7.253H9.07v-7.253z"
                 />
               </svg>
