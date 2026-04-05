@@ -5636,8 +5636,8 @@
     z-index: 1;
     -webkit-transition:.2s all ease;
     -o-transition:.2s all ease;
-    opacity: 0;
-    visibility: hidden;
+    /* opacity: 0;
+    visibility: hidden; */
     transition:.2s all ease;
 }
 ._feed_timeline_dropdown_item {
