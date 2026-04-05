@@ -651,12 +651,12 @@
     position: absolute;
     left: -110px;
     transition: .2s all ease;
-    top: 32px;
+    top: 50px;
     height: calc(100vh - 90px);
     overflow: auto;
     transform: translateY(20px);
-    opacity:0;
-    visibility: hidden;
+    /* opacity:0;
+    visibility: hidden; */
     border-radius: 6px;
 }
 ._notifications_content {
@@ -5527,8 +5527,8 @@
     transform: translateY(20px);
     /* display: none; */
     z-index: 1;
-    opacity: 0;
-    visibility: hidden;
+    /* opacity: 0;
+    visibility: hidden; */
 }
 .show {
     /* display: block !important; */
@@ -5589,6 +5589,10 @@
 }
 ._nav_dropdown_link:hover {
     color:var(--color5);
+}
+
+._cursor_pointer {
+    cursor: pointer;
 }
 ._nav_drop_info span {
     background: #ebf2ff;
