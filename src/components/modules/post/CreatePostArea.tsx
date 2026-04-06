@@ -39,8 +39,7 @@ export default function CreatePostArea() {
 
   return (
     <div
-      className="_feed_inner_text_area _b_radious6 _padd_b24 _padd_t24 _padd_r24 _padd_l24 _mar_b16"
-      style={{ position: "relative" }}
+      className="_feed_inner_text_area _b_radious6 _padd_b24 _padd_t24 _padd_r24 _padd_l24 _mar_b16 relative"
     >
       <form action={handleFinalSubmit} ref={formRef}>
         <div className="_feed_inner_text_area_box">

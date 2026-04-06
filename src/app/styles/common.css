@@ -160,6 +160,11 @@ ul {
 }
 
 
+.minHeight {
+    min-height: "50px";
+}
+
+
 /*TITLE*/
 
 ._title1 {
@@ -1310,6 +1315,12 @@ ul {
 
 ._mar_r100 {
     margin-right: 100px;
+}
+
+
+/* positon */
+.relative {
+    position: "relative";
 }
 
 

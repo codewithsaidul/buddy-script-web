@@ -10,7 +10,7 @@ import PostCard from "./PostCard";
 import Stories from "./Stories";
 
 interface PostFeedProps {
-  initialData: IApiResponse<IPost[]>; // সাধারণত data অ্যারে হয়
+  initialData: IApiResponse<IPost[]>;
   initialQueryString: string;
 }
 
@@ -18,10 +18,9 @@ export default function PostFeed({
   initialData,
   initialQueryString,
 }: PostFeedProps) {
-
-
   const [posts, setPosts] = useState<IPost[]>(initialData?.data || []);
   const [meta, setMeta] = useState<IMeta | undefined>(initialData?.meta);
+
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
@@ -29,11 +28,30 @@ export default function PostFeed({
     threshold: 0,
   });
 
-  const loadMorePosts = useCallback(async () => {
-    setLoading(true);
 
+  useEffect(() => {
+    const isInitial =
+      (initialData?.meta?.page as number) <
+      (initialData?.meta?.totalPages as number);
+    setPosts(initialData?.data || []);
+    setMeta(initialData?.meta);
+    setHasMore(isInitial);
+  }, [initialData]);
+
+  const loadMorePosts = useCallback(async () => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
     try {
-      const nextPage = (meta?.page || 1) + 1;
+      const currentPage = meta?.page || 1;
+      const totalPage = meta?.totalPages || 1;
+
+      if (currentPage >= totalPage) {
+        setHasMore(false);
+        return;
+      }
+
+      const nextPage = currentPage + 1;
       const params = new URLSearchParams(initialQueryString);
       params.set("page", nextPage.toString());
       params.set("limit", "10");
@@ -45,7 +63,8 @@ export default function PostFeed({
         setPosts((prev) => [...prev, ...newPostsData]);
         setMeta(response.meta);
 
-        if (newPostsData.length < 10) {
+        // Check if there's actually more
+        if (response.meta.page >= response.meta.totalPage) {
           setHasMore(false);
         }
       } else {
@@ -57,7 +76,7 @@ export default function PostFeed({
     } finally {
       setLoading(false);
     }
-  }, [meta, initialQueryString]); 
+  }, [meta, initialQueryString, loading, hasMore]);
 
   useEffect(() => {
     if (inView && !loading && hasMore) {
@@ -79,8 +98,7 @@ export default function PostFeed({
           {/* লোডার পয়েন্ট */}
           <div
             ref={ref}
-            className="text-center p-3"
-            style={{ minHeight: "50px" }}
+            className="_text_center _padd_t3 minHeight"
           >
             {loading && (
               <div
@@ -94,7 +112,7 @@ export default function PostFeed({
           </div>
 
           {!hasMore && posts.length > 0 && (
-            <p className="text-center text-muted mt-3">
+            <p className="_text_center text-muted mt-3">
               No more posts to show.
             </p>
           )}
