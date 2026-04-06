@@ -2,11 +2,11 @@ export interface IApiResponse<T> {
   statusCode: number
   success: boolean
   message: string
-  meta?: Meta
-  data: T[]
+  meta?: IMeta
+  data: T
 }
 
-export interface Meta {
+export interface IMeta {
   page: number
   limit: number
   total: number

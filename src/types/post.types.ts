@@ -13,6 +13,7 @@ export interface IPost {
   image?: string;
   visibility: PostVisibility;
   likes: IUser[];
+  isLiked?: boolean
   isDeleted: boolean;
   createdAt?: Date;
   updatedAt?: Date;

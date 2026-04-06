@@ -1,8 +1,6 @@
 import { JSX } from 'react';
 
-
 type IconType = 'photo' | 'video' | 'event' | 'article';
-
 
 interface PostOptionProps {
   icon: IconType;
@@ -39,14 +37,15 @@ export default function PostOption({
     ),
   };
 
+  // Button এর বদলে Div ব্যবহার করা হয়েছে যাতে Label এর ক্লিকের সাথে কনফ্লিক্ট না হয়
   return (
     <div className={`_feed_inner_text_area_bottom_${icon} _feed_common`}>
-      <button type="button" className="_feed_inner_text_area_bottom_photo_link">
+      <div className="_feed_inner_text_area_bottom_photo_link" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}>
         <span className="_feed_inner_text_area_bottom_photo_iamge _mar_img">
           {icons[icon]}
         </span>
-        {!isMobile && label}
-      </button>
+        {!isMobile && <span className="ms-1">{label}</span>}
+      </div>
     </div>
   );
 }
