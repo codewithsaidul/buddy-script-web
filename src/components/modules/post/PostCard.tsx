@@ -92,7 +92,7 @@ const PostCard = ({ post }: { post: IPost }) => {
       />
 
       {/* --- Full Comment Section --- */}
-      <PostComments />
+      <PostComments postId={post._id as string} />
     </div>
   );
 };

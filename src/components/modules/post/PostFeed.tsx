@@ -19,6 +19,7 @@ export default function PostFeed({
   initialQueryString,
 }: PostFeedProps) {
 
+
   const [posts, setPosts] = useState<IPost[]>(initialData?.data || []);
   const [meta, setMeta] = useState<IMeta | undefined>(initialData?.meta);
   const [loading, setLoading] = useState(false);
