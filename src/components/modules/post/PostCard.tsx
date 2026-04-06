@@ -6,8 +6,34 @@ import Link from "next/link";
 import PostComments from "./PostComments";
 import PostDropDown from "./PostDropDown";
 import PostReactionAction from "./PostReactionAction";
+import { useEffect, useState } from "react";
+import { IComment } from "@/types/comments.types";
+import { getCommentsByPosts } from "@/service/comments/comment.service";
 
 const PostCard = ({ post }: { post: IPost }) => {
+  const [comments, setComments] = useState<IComment[]>([]);
+  const [totalComments, setTotalComments] = useState(0);
+
+
+  useEffect(() => {
+    const fetchInitialComments = async () => {
+      try {
+        const response = await getCommentsByPosts(
+          post._id as string,
+          "limit=4&sort=-createdAt",
+        );
+        if (response?.success) {
+          setComments(response.data);
+          setTotalComments(response.meta?.total || 0);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchInitialComments();
+  }, [post._id]);
+
   return (
     <div className="_feed_inner_timeline_post_area _b_radious6 _padd_b24 _padd_t24 _mar_b16">
       <div className="_feed_inner_timeline_content _padd_r24 _padd_l24">
@@ -27,8 +53,12 @@ const PostCard = ({ post }: { post: IPost }) => {
                 {post.author.firstName} {post.author.lastName}
               </h4>
               <p className="_feed_inner_timeline_post_box_para">
-                {post.createdAt ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true }) : "Just now"} 
-  {" . "} <Link href="#0">Public</Link>
+                {post.createdAt
+                  ? formatDistanceToNow(new Date(post.createdAt), {
+                      addSuffix: true,
+                    })
+                  : "Just now"}
+                {" . "} <Link href="#0">Public</Link>
               </p>
             </div>
           </div>
@@ -68,16 +98,18 @@ const PostCard = ({ post }: { post: IPost }) => {
               }
             />
           ))}
-          <p className="_feed_inner_timeline_total_reacts_para">
-            {post.likes.length > 5
-              ? `${post.likes.length - 5}+`
-              : post.likes.length}
-          </p>
+          {post.likes.length > 5 ? (
+            <p className="_feed_inner_timeline_total_reacts_para">
+              `${post.likes.length - 5}+`
+            </p>
+          ) : (
+            ""
+          )}
         </div>
         <div className="_feed_inner_timeline_total_reacts_txt">
           <p className="_feed_inner_timeline_total_reacts_para1">
             <Link href="#0">
-              <span>12</span> Comment
+              <span>{totalComments || 0}</span> Comment
             </Link>
           </p>
           <p className="_feed_inner_timeline_total_reacts_para2">
@@ -92,7 +124,11 @@ const PostCard = ({ post }: { post: IPost }) => {
       />
 
       {/* --- Full Comment Section --- */}
-      <PostComments postId={post._id as string} />
+      <PostComments
+        postId={post._id as string}
+        initialComments={comments}
+        totalCount={totalComments}
+      />
     </div>
   );
 };

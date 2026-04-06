@@ -68,9 +68,9 @@ export async function getPosts(queryString?: string) {
       {
         next: {
           tags: [
-            "posts-list",
-            `posts-page-${page}`,
-            `posts-search-${searchTerm}`,
+            "feeds-list",
+            `feeds-page-${page}`,
+            `feeds-search-${searchTerm}`,
           ],
           revalidate: 180,
         },

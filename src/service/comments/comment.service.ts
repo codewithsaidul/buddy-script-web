@@ -7,13 +7,13 @@ import { revalidateTag } from "next/cache";
 
 export async function createComment(_currentState: any, formData: FormData) {
   try {
-    const content = formData.get("content");
+    const text = formData.get("text");
     const postId = formData.get("postId");
 
-    if (!content) return { success: false, message: "Comment cannot be empty" };
+    if (!text) return { success: false, message: "Comment cannot be empty" };
 
     const payload = {
-      content,
+      text,
     };
 
     const res = await Fetcher.post(`/posts/${postId}/comments`, {
@@ -39,6 +39,37 @@ export async function createComment(_currentState: any, formData: FormData) {
     return {
       success: false,
       message: err?.data?.message || "Failed to create post",
+    };
+  }
+}
+
+
+export async function getCommentsByPosts(postId: string, queryString?: string) {
+  try {
+    const searchParams = new URLSearchParams(queryString);
+    const page = searchParams.get("page") || "1";
+    const searchTerm = searchParams.get("searchTerm") || "all";
+    const response = await Fetcher.get(
+      `/posts/${postId}/comments${queryString ? `?${queryString}` : ""}`,
+      {
+        next: {
+          tags: [
+            "comments-list",
+            `comments-page-${page}`,
+            `comments-search-${searchTerm}`,
+          ],
+          revalidate: 180,
+        },
+      },
+    );
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log(error);
+    const err = error as IApiErrorResponse;
+    return {
+      success: false,
+      message: err.data.message || "Something went wrong",
     };
   }
 }
